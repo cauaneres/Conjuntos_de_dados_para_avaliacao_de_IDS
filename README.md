@@ -196,9 +196,7 @@ sudo docker run -d --network host --user root --rm -v "${PWD}":/home/python/ col
 ```
 Aguardando alguns minutos, o arquivo *same_atacks* deve ter sido criado, caso contrário, houve algo de errado.
 
-## Executando os ataques
-
-### Iniciar os ataques
+### Executando os ataques
 
 Depois de concluir os passos anteriores, vamos dar início aos ataques
 
@@ -214,7 +212,7 @@ O IP da VM vítima é muito importante nesta etapa, juntamente com anotação do
 
 Substitua "IP-atacado" pelo o IP da VM vítima (ubuntu16), segue abaixo os ataques realizados:
 
-#### DoS-Slowhttptest
+##### DoS-Slowhttptest
 
 ```
 slowhttptest -c 1000 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://<IP-atacado> -x 24 -p 3
@@ -273,6 +271,35 @@ sudo nmap -B <IP-atacado>
 ```
 
 ## Como gerar dados sintéticos com IA ✅
+
+Para começar, vamos para o *chatgpt*, pois foi gerado os melhores resultados, comparado com o Gemini. O Gemini não criava os conjuntos, apenas passava o passo a passo de como contruir um dataset
+
+Primeiro pode tentar a primeira estratégia de engenharia de prompt, Zero-Short Prompting. Juntamente com o conjunto de dados vamos usar o seguinte prompt:
+```
+"Gere um Dataset de um ataque Dos-Slowhttp em formato de CSV, usarei
+esse arquivo para treinar um modelo de detecção de intrusão."
+```
+Depedendo dos resultados, ajustes na frase e mudança da lingua podem ajudar buscar resultado melhores.
+
+A segunda estratégia é o One-Short Prompting, que mostrou ser mais efeciente que a anterior. Podemos usar o seguinte prompt:
+```
+"Você é um profissional da área de Cibersegurança a 10 anos,
+está fazendo um estudo de treinar modelos em detecção de intrusão.
+Sendo assim precisa gerar um Dataset do ataque Dos-Slowhttp em
+uma rede real para melhor precisão dos dados.
+Você vai usar os seguintes critérios:
+- Dataset deve ter no mínimo 150 linhas.
+- Deve ser o mais próximo possível da realidade.
+- Conter dados de tráfego normal.
+- Conter dados de ataque.
+- A distribuição de dados de ataque e tráfego normal deve ser aleatória,
+conforme sua rede nesse cenário.
+- Você está usando sua rede de casa e está sozinho.
+- Está usando duas VMs, uma Ubuntu para receber os ataques e uma
+Kali para atacar.
+Exemplo de um Dataset Dos-Slowhttp: "
+```
+A dica da estratégia anterior, vale pra essa mesma. Com tentativas e polimento, o resultados podem ser melhores.
 
 ## Observações
 
