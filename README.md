@@ -313,3 +313,5 @@ Os comandos apresentados são para o sistema operacional Linux. Caso seja utiliz
 No caso de executar ataques separados, é recomendável que, para cada ataque, seja criado um arquivo .CSV individual. Já nos casos de ataques combinados (A+B+C), também deve ser gerado um arquivo .CSV separado, um para cada combinação.
 
 A cada novo arquivo .CSV gerado, ele sempre terá o nome **"same_attacks"**. Recomenda-se que, ao final de cada ataque, o nome seja alterado para evitar confusão.
+
+Na pasta **"ml-ids-attack-simulator"**, está localizado os arquivos para a criação do ambiente de simulação de ataques.
