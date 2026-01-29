@@ -1,16 +1,16 @@
 # Construção de conjuntos de dados para avaliação de sistemas de detecção de intrusão
 
-Essa iniciação Científica se trata de uma construção de conjuntos de dados para ser feito a avalição em IDS. A criação desses datasets foram feitas em duas etapas, a primeira se trata de um ambiente de simulação de ataques com VMs (máquinas virtuais) dentro de uma mesma rede, uma VM atuando como atacante e outra como vítima. A segunda etapa foi a geração de dados sintéticos com IAs (inteligência artificial) generativas, com tecnicas de engenharia de prompt e com o auxílio dos conjuntos gerados na primera etapa. 
+Esta Iniciação Científica trata da construção de conjuntos de dados para a realização da avaliação em IDS. A criação desses datasets foi feita em duas etapas. A primeira consiste em um ambiente de simulação de ataques com VMs (máquinas virtuais) dentro de uma mesma rede, com uma VM atuando como atacante e outra como vítima. A segunda etapa foi a geração de dados sintéticos com IAs (inteligência artificial) generativas, utilizando técnicas de engenharia de prompt e com o auxílio dos conjuntos gerados na primeira etapa. Este repositório contém os scripts, instruções e comandos necessários para reproduzir os experimentos descritos no relatório de Iniciação Científica.
 
 ## Construção dos conjuntos no ambiente de simulação de ataques
 
-Este ambiente de simulação de ataques foi contruindo dentro de uma máquina local, onde houve também a captura de seus dados, sendo um trafégo benigno. Foi executado pela VM atacante, ataques indíviduais de diferentes tipos e em conjuntos, levando a criação de datasets mais diversos. Com isso a VM vítima captura todo trafégo durante o ataque, que no final, gera um .CVS com as informações naquele intervalo que ocorreu os ataques. A duração dos ataques ficaram entre 5 a 15 minutos, levando em consideração que alguns desses ataques podem ocorrer em um tempo menor do que o proposto. Importante os créditos para o colega gustavodgbernardo, que ajudou bastante com a estruturação dessa etapa.
+Este ambiente de simulação de ataques foi construído dentro de uma máquina local, onde também houve a captura de seus dados, sendo um tráfego benigno. Foram executados, pela VM atacante, ataques individuais de diferentes tipos e em conjunto, levando à criação de datasets mais diversos. Com isso, a VM vítima captura todo o tráfego durante o ataque, o que, ao final, gera um arquivo .CSV com as informações do intervalo em que ocorreram os ataques. A duração dos ataques ficou entre 5 e 15 minutos, levando em consideração que alguns desses ataques podem ocorrer em um tempo menor do que o proposto. Importantes os créditos ao colega gustavodgbernardo, que ajudou bastante na estruturação dessa etapa.
 
 <img width="830" height="499" alt="image" src="https://github.com/user-attachments/assets/f7e18e43-78ee-44cd-9788-dfbfa3e7d060" />
 
-## Geração de Dados Sintéticos com Inteligência Artificial
+## Geração de dados sintéticos com inteligência artificial
 
-Feito a construção dos dados, os mesmos foram usados para a geração de dados sintéticos em IAs, foi usado o dataset do ataque DoS-Slowhttp e técnicas de enegenharia de prompt (Zero-Shot Prompting e One-Shot Prompting). Os dados criados no ambiente foram enviados em conjunto com os prompts de cada técnica separadamente e em duas intelegências Artificiais diferentes.
+Após a construção dos dados, os mesmos foram utilizados para a geração de dados sintéticos em IAs. Foi usado o dataset do ataque DoS-Slowhttp e técnicas de engenharia de prompt (Zero-Shot Prompting e One-Shot Prompting). Os dados criados no ambiente foram enviados em conjunto com os prompts de cada técnica, separadamente, e em duas inteligências artificiais diferentes.
 
 <img width="715" height="337" alt="image" src="https://github.com/user-attachments/assets/f25e051b-a0d7-4bbe-b099-e687d80b7e39" />
 
@@ -44,27 +44,28 @@ Feito a construção dos dados, os mesmos foram usados para a geração de dados
 * [Docker >= 27.3.1](https://docs.docker.com/engine/install/).
 * [NFstream](https://www.nfstream.org).
 * get-flow.py
+* [ChatGpt](https://chatgpt.com/)
 
-## Como criar o ambiente de simulação de ataques ✅
+## Como criar o ambiente de simulação de ataques 
 
 ### Criação das VMs
 
-Para criar as máquinas virtuais, se usa o Vagrant. Executando o comando abaixo, as duas VMs serão criadas,o Kali abrirá uma janela pedindo usuário e senha, ambas são "vagrant". 
+Para criar as máquinas virtuais, utiliza-se o Vagrant. Ao executar o comando abaixo, as duas VMs serão criadas; o Kali abrirá uma janela solicitando usuário e senha, ambos sendo "vagrant".
 
 ```
 $ vagrant up
 ```
 
-No caso da VM ubuntu, não abrirá a janela e para acessar basta usar o comando:
+No caso da VM Ubuntu, nenhuma janela será aberta e, para acessá-la, basta utilizar o comando:
 
 ```
 $ vagrant ssh ubuntu16
 ```
-### Coleta dos dados Locais
+### Coleta dos dados locais
 
-Na coleta dos dados da máquina local(tráfego benigno), é realizada uma captura de fluxos normais. **Essa etapa exige mais atenção, pois serão captadas em sua rede informações como endereços de ips e páginas visitadas**. Depois da coleta dos dados, será necessário fazer anonimização de dados.
+Na coleta dos dados da máquina local (tráfego benigno), é realizada a captura de fluxos normais. **Essa etapa exige mais atenção, pois serão captadas informações da sua rede, como endereços IP e páginas visitadas**. Após a coleta dos dados, será necessário realizar a anonimização das informações.
 
-Primeiro passo sera trocar no arquivo *get-flow.py* a palavra "rede" para interface de rede local de sua máquina, executando o seguinte comando:
+O primeiro passo será trocar, no arquivo get-flow.py, a palavra "rede" pela interface de rede local da sua máquina, executando o seguinte comando para obter as informações necessárias para a substituição:
 
 ```
 $ ifconfig
@@ -104,7 +105,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-Agora devesse pegar a rede local (que normalmente é 192.168.xx), que no exemplo é *enp9s0* logo o arquivo *get-flow.py* ficara da seguinte maneira:
+Agora, deve-se pegar a interface de rede local (que normalmente está associada a endereços 192.168.xx), que no exemplo é enp9s0. Logo, o arquivo get-flow.py ficará da seguinte maneira:
 
 ```
 from nfstream import NFStreamer
@@ -126,7 +127,7 @@ Em seguida, execute:
 ```
 sudo docker run -d --network host --user root --rm -v "${PWD}":/home/python/ collect_attacks
 ```
-Ápos alguns minutos, esperasse que apareça na pasta do projeto um arquivo chamado *same_attacks.csv*, o seguinte arquivo contém os fluxos de dados gerados através dos pacotes de rede, utilizando o NFstream.
+Após alguns minutos, espera-se que apareça na pasta do projeto um arquivo chamado same_attacks.csv. Esse arquivo contém os fluxos de dados gerados a partir dos pacotes de rede, utilizando o NFstream.
 
 ### Coleta dos dados da VM vítima
 
@@ -135,7 +136,7 @@ Para entrar na VM que será atacada, executa o comando:
 ```
 $ vagrant ssh ubuntu16
 ```
-Depois de dentro, edite o arquivo *get-glow.py* e troque "rede" pela interface da rede local
+Depois de entrar, edite o arquivo get-flow.py e troque "rede" pela interface da rede local.
 
 Exemplo:
 ```
@@ -183,9 +184,9 @@ online_streamer = NFStreamer(source="enp0s8", statistical_analysis = True, idle_
 
 total_flows_count = online_streamer.to_csv(path="same_attacks.csv", columns_to_anonymize=[], flows_per_file=0, rotate_files=0)
 ```
-Importante anotar o IP da VM vítima, pois será o IP atacado pelo Kali.
+É importante anotar o IP da VM vítima, pois será o IP atacado pelo Kali.
 
-Agora será construido a imagem da vítima no docker.
+Agora será construída a imagem da vítima no Docker.
 ```
 sudo docker build -t collect_attacks .
 ```
@@ -194,23 +195,23 @@ Em seguida, execute.
 ```
 sudo docker run -d --network host --user root --rm -v "${PWD}":/home/python/ collect_attacks
 ```
-Aguardando alguns minutos, o arquivo *same_atacks* deve ter sido criado, caso contrário, houve algo de errado.
+Aguardando alguns minutos, o arquivo same_attacks deve ter sido criado; caso contrário, algo deu errado.
 
 ### Executando os ataques
 
-Depois de concluir os passos anteriores, vamos dar início aos ataques
+Depois de concluir os passos anteriores, vamos dar início aos ataques.
 
-Primeiramente entre na VM linux com o usuario e senha citados e abra um terminal execute o comando:
+Primeiramente, entre na VM KaliLinux com o usuário e a senha citados, abra um terminal e execute o comando:
 
 ```
 $ ifconfig
 ```
 
-**E anote o IP desta VM é muito importante esse passo**
+**Anote o IP desta VM; esse passo é muito importante.**
 
-O IP da VM vítima é muito importante nesta etapa, juntamente com anotação do horario exato de início e fim de cada ataque. Alguns ataques param apenas com *Crtl+c*, um intervalo de 5 a 15 minutos para cada ataque (pode ser mais ou menos, dependo da sua proposta).
+O IP da VM vítima é muito importante nesta etapa, juntamente com a anotação do horário exato de início e fim de cada ataque. Alguns ataques param apenas com Ctrl+C. Recomenda-se um intervalo de 5 a 15 minutos para cada ataque (pode ser mais ou menos, dependendo da sua proposta).
 
-Substitua "IP-atacado" pelo o IP da VM vítima (ubuntu16), segue abaixo os ataques realizados:
+Substitua "IP-atacado" pelo IP da VM vítima (ubuntu16). Seguem abaixo os ataques realizados:
 
 ##### DoS-Slowhttptest
 
@@ -270,18 +271,20 @@ sudo nmap -sL <IP-atacado>
 sudo nmap -B <IP-atacado>
 ```
 
-## Como gerar dados sintéticos com IA ✅
+Novamente, deixo os créditos ao colega **gustavodgbernardo** pela ajuda nessa estruturação.
 
-Para começar, vamos para o *chatgpt*, pois foi gerado os melhores resultados, comparado com o Gemini. O Gemini não criava os conjuntos, apenas passava o passo a passo de como contruir um dataset
+## Como gerar dados sintéticos com IA 
 
-Primeiro pode tentar a primeira estratégia de engenharia de prompt, Zero-Short Prompting. Juntamente com o conjunto de dados vamos usar o seguinte prompt:
+Para começar, vamos utilizar o ChatGPT, pois foi onde se obtiveram os melhores resultados, em comparação com o Gemini. O Gemini não criava os conjuntos, apenas apresentava o passo a passo de como construir um dataset.
+
+Primeiro, pode-se tentar a primeira estratégia de engenharia de prompt, **Zero-Shot Prompting**. Juntamente com o conjunto de dados, vamos utilizar o seguinte prompt:
 ```
 "Gere um Dataset de um ataque Dos-Slowhttp em formato de CSV, usarei
 esse arquivo para treinar um modelo de detecção de intrusão."
 ```
-Depedendo dos resultados, ajustes na frase e mudança da lingua podem ajudar buscar resultado melhores.
+Dependendo dos resultados, ajustes na frase e a mudança da língua podem ajudar a buscar resultados melhores.
 
-A segunda estratégia é o One-Short Prompting, que mostrou ser mais efeciente que a anterior. Podemos usar o seguinte prompt:
+A segunda estratégia é o **One-Shot Prompting**, que se mostrou mais eficiente que a anterior. Podemos usar o seguinte prompt:
 ```
 "Você é um profissional da área de Cibersegurança a 10 anos,
 está fazendo um estudo de treinar modelos em detecção de intrusão.
@@ -299,33 +302,14 @@ conforme sua rede nesse cenário.
 Kali para atacar.
 Exemplo de um Dataset Dos-Slowhttp: "
 ```
-A dica da estratégia anterior, vale pra essa mesma. Com tentativas e polimento, o resultados podem ser melhores.
+A dica da estratégia anterior vale para esta também. Com tentativas e polimento, os resultados podem ser melhores.
 
 ## Observações
 
-As pastas de ataques estão separados em duas, ataques inviduais e ataques combinados.
+Os ataques descritos neste repositório foram executados exclusivamente em ambiente controlado e para fins acadêmicos.
 
-### Como rodar os testes
+Os comandos apresentados são para o sistema operacional Linux. Caso seja utilizado outro sistema, os comandos podem mudar, como no caso do Docker, por exemplo.
 
-Explique como rodar os testes da aplicação. Exemplo de um comando usando Makefile para rodar os testes:
+No caso de executar ataques separados, é recomendável que, para cada ataque, seja criado um arquivo .CSV individual. Já nos casos de ataques combinados (A+B+C), também deve ser gerado um arquivo .CSV separado, um para cada combinação.
 
-```
-make test
-```
-
-## 📌 (Título) - Informações importantes sobre a aplicação (exemplo) 📌
-
-Esse é o local para você preencher com outras informações que possam ser importantes para a aplicação. Coloquei um exemplo de título, mas você deve preencher de acordo com a necessidade do projeto. Pode ser que não seja necessário.
-
-Um bom exemplo: se você estiver construindo uma API, liste as rotas da aplicação e quais serão os seus retornos. Isso facilita para quem vai consumir a API.
-
-
-## ⚠️ Problemas enfrentados
-
-Liste os problemas que você enfrentou construindo a aplicação e como você resolveu cada um deles. Você que desenvolveu o projeto é a pessoa que mais conhece/entende os possíveis problemas que uma pessoa pode enfrentar rodando a aplicação. Compartilhe esse conhecimento e facilite a vida da pessoa descrevendo-os.
-
-Exemplo:
-
-### Problema 1:
-Descrição do problema
-* Como solucionar: explicar a solução.
+A cada novo arquivo .CSV gerado, ele sempre terá o nome **"same_attacks"**. Recomenda-se que, ao final de cada ataque, o nome seja alterado para evitar confusão.
