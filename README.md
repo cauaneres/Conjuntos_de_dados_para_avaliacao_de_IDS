@@ -314,4 +314,4 @@ No caso de executar ataques separados, é recomendável que, para cada ataque, s
 
 A cada novo arquivo .CSV gerado, ele sempre terá o nome **"same_attacks"**. Recomenda-se que, ao final de cada ataque, o nome seja alterado para evitar confusão.
 
-Na pasta **"Ambiente de simulação de ataques"**, está localizado os arquivos para a criação do ambiente de simulação de ataques.
+Na pasta **"Ambiente de simulação de ataques"**, está localizado os arquivos para a criação do ambiente.
