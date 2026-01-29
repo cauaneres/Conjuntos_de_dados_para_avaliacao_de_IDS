@@ -1,0 +1,2 @@
+Gere um Dataset de um ataque Dos-Slowhttp em formato de CSV, usarei
+esse arquivo para treinar um modelo de detecção de intrusão.

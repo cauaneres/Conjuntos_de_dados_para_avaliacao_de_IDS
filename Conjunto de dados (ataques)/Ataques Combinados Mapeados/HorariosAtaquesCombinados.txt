@@ -1,0 +1,29 @@
+DoS-GoldenEye + DoS-Hulk + DoS-slowloris
+Inicio Geral: 11:19
+Inicio GoldenEye: 11:19
+Inicio Hulk: 11:33
+Inicio Slowloris: 11:49
+
+Fim Geral: 12:01
+Fim GoldenEye: 11:29
+Fim Hulk: 11:47 (Kali crashou)
+Fim Slowloris: 12:00 (Kali crashou)
+========================================================================
+Nmap + Teste DoS-Slowhttp
+Inicio Geral: 13:02
+Inicio Nmap: 13:06
+Inicio DoS-Slowhttp: 13:12 
+
+Fim Geral: 13:30
+Fim Nmap: 13:12
+Fim DoS-Slowhtt: 13:29
+========================================================================
+Dos-HULK + Dos-GoldenEye
+Inicio Geral: 13:53
+Inicio HULK: 13:53
+Inicio GoldenEye: 14:09
+
+Fim Geral: 14:25
+Fim HULK: 14:02 (travou)
+Fim GoldenEye: 14:09 
+========================================================================
